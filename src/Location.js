@@ -82,7 +82,16 @@ const Location = () => {
       const value = await AsyncStorage.getItem('cityWeatherData');
       const convertData = JSON.parse(value);
       console.log('^^^^Data Fetched^^^^', convertData);
-      setCityWeatherData(convertData);
+      if (convertData) {
+        setCityWeatherData(convertData);
+      } else {
+        const firstData = {
+          city: wdata.city.name,
+          temp: wdata.list[0].main.temp,
+          icon: wdata.list[0].weather[0].icon,
+        };
+        setCityWeatherData([firstData]);
+      }
     } catch (e) {
       console.log('====Error Fetching Data====', e);
     }

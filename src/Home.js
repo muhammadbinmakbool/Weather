@@ -12,7 +12,7 @@ const Home = () => {
 
   return (
     <Layout>
-      <View style={{justifyContent: 'center', paddingTop: deviceHeight * 0.02}}>
+      <View style={{justifyContent: 'center', paddingTop: deviceHeight * 0.04}}>
         {/* City Name */}
         <Text style={styles.cityName}>{wdata?.city?.name}</Text>
 
@@ -25,7 +25,7 @@ const Home = () => {
         {/* Weather Details */}
         <View
           style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.5)',
+            backgroundColor: 'rgba(255, 255, 255, 0.3)',
             padding: 8,
             marginHorizontal: deviceHeight * 0.05,
             marginVertical: deviceHeight * 0.05,
@@ -122,7 +122,7 @@ const Home = () => {
                     opacity: 0.8,
                     borderRadius: 15,
                     width: 70,
-                    marginTop: 20,
+                    marginTop: deviceHeight * 0.05,
                   }}>
                   <Text style={styles.hourlyWeatherDetail}>
                     {item.dt_txt.substring(11, 16)}

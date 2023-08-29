@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   temperature: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginVertical: 10,
+    marginVertical: 25,
   },
   detailIcon: {
     flexDirection: 'row',
