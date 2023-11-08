@@ -23,13 +23,6 @@ const App = () => {
             tabBarShowLabel: false,
             tabBarStyle: styles.tabBarStyle,
             tabBarHideOnKeyboard: true,
-            tabBarBackground: () => {
-              <BlurView
-                blurType="light"
-                blurAmount={10}
-                reducedTransparencyFallbackColor="white"
-              />;
-            },
             tabBarIcon: ({focused}) => {
               let iconName;
               let iconText;

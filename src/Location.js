@@ -17,12 +17,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import Utility from './Utility';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
 
 const Location = () => {
   const navigation = useNavigation();
   const {wdata, setCity} = useContext(ApiDataContext);
   const [search, setSearch] = useState();
   const [cityWeatherData, setCityWeatherData] = useState([]);
+  const [reFetchWeatherData, setReFetchWeatherData] = useState([]);
   const [initialRender, setInitialRender] = useState(true);
 
   // City Input
@@ -49,6 +51,7 @@ const Location = () => {
       setInitialRender(false);
       getDatafromStorage();
     }
+    console.log(cityWeatherData);
   }, [wdata]);
 
   // Adding New Data
@@ -109,6 +112,32 @@ const Location = () => {
     setCity(value);
   };
 
+  //Updating Weather Data
+  const reFetchData = async () => {
+    const updatedData = await (async () => {
+      try {
+        return await Promise.all(
+          cityWeatherData.map(async item => {
+            const response = await axios.get(
+              `http://api.openweathermap.org/data/2.5/forecast?q=${item.city}&appid=8856d7e188a8d48769ee6a15d564a1f8&units=metric`,
+            );
+            if (response.status === 200) {
+              const data = response.data;
+              return {
+                city: data.city.name,
+                temp: data.list[0].main.temp,
+                icon: data.list[0].weather[0].icon,
+              };
+            }
+          }),
+        );
+      } catch (error) {
+        console.log('Error Updating Data', error);
+      }
+    })();
+    setCityWeatherData(updatedData);
+  };
+
   return (
     <Layout>
       {/* Search Bar */}
@@ -125,12 +154,25 @@ const Location = () => {
         <TouchableOpacity
           onPress={() => searchCity(search)}
           style={{alignSelf: 'center'}}>
-          <Icon name="search" color="white" style={{fontSize: 20}} />
+          <Icon name="search" color="white" size={20} />
+        </TouchableOpacity>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+          // backgroundColor: 'blue',
+          marginTop: 24,
+          marginRight: 18,
+          alignContent: 'center',
+        }}>
+        <TouchableOpacity onPress={() => reFetchData()}>
+          <Icon name="reload-circle-outline" color="white" size={28} />
         </TouchableOpacity>
       </View>
 
       {/* City Temperature Card Container */}
-      <View style={{marginTop: 20}}>
+      <View style={{marginTop: 6}}>
         <FlatList
           data={cityWeatherData}
           numColumns={2}
