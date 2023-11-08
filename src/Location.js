@@ -161,7 +161,6 @@ const Location = () => {
         style={{
           flexDirection: 'row',
           justifyContent: 'flex-end',
-          // backgroundColor: 'blue',
           marginTop: 24,
           marginRight: 18,
           alignContent: 'center',
